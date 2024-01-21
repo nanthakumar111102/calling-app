@@ -1,12 +1,18 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
 }
 
 .container {
     max-width: 400px;
     margin: 0 auto;
+    background-color: #4e79a7;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #fff;
 }
 
 form {
@@ -17,24 +23,31 @@ form {
 
 label {
     margin-top: 10px;
+    color: #fff;
 }
 
 input, button {
     margin-top: 5px;
 }
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
-}
 
-#timerInput {
-    margin-bottom: 10px;
-}
-
-#startButton, #stopButton {
+button {
+    background-color: #2a4d69;
+    color: #fff;
+    border: none;
     padding: 10px;
     font-size: 16px;
-    margin: 5px;
     cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #1d3557;
+}
+
+#stopButton {
+    background-color: #ff5757;
+}
+
+#stopButton:hover {
+    background-color: #d94646;
 }
