@@ -3,18 +3,6 @@ let callInterval;
 async function startCalling(event) {
     event.preventDefault();
 
-    // Request permission for accessing the phonebook
-    try {
-        const permission = await navigator.permissions.query({ name: 'contacts' });
-        if (permission.state === 'denied') {
-            alert('Permission to access the phonebook is denied. Please grant permission in your browser settings.');
-            return;
-        }
-    } catch (error) {
-        console.error('Error checking permission:', error);
-        return;
-    }
-
     const phoneNumberInput = document.getElementById('phoneNumber');
     const callTimeInput = document.getElementById('callTime');
 
@@ -26,14 +14,18 @@ async function startCalling(event) {
         return;
     }
 
-    // Perform the calling operation (simulated with alerts)
-    alert(`Calling ${phoneNumber} at ${callTime}...`);
+    // Perform the calling operation using Twilio (replace with your credentials)
+    const response = await makeTwilioCall(phoneNumber);
 
-    // Simulate continuous calling
-    // Note: This still uses the time input for the interval, which may not be accurate for real-world scenarios.
-    callInterval = setInterval(() => {
-        alert('Simulating a call...');
-    }, getTimeDifferenceInSeconds(callTime));
+    if (response.success) {
+        alert(`Calling ${phoneNumber} at ${callTime}...`);
+        // Simulate continuous calling
+        callInterval = setInterval(() => {
+            alert('Simulating a call...');
+        }, getTimeDifferenceInSeconds(callTime));
+    } else {
+        alert('Error initiating call. Please check your Twilio configuration.');
+    }
 }
 
 function stopCalling() {
@@ -49,4 +41,35 @@ function getTimeDifferenceInSeconds(targetTime) {
     }
     const timeDifferenceInSeconds = (target - now) / 1000; // Convert milliseconds to seconds
     return timeDifferenceInSeconds;
+}
+
+async function makeTwilioCall(phoneNumber) {
+    const twilioAccountSid = 'YOUR_TWILIO_ACCOUNT_SID';
+    const twilioAuthToken = 'YOUR_TWILIO_AUTH_TOKEN';
+    const twilioPhoneNumber = 'YOUR_TWILIO_PHONE_NUMBER';
+
+    try {
+        const response = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${twilioAccountSid}/Calls.json`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + btoa(`${twilioAccountSid}:${twilioAuthToken}`),
+            },
+            body: new URLSearchParams({
+                To: phoneNumber,
+                From: twilioPhoneNumber,
+                Url: 'http://demo.twilio.com/docs/voice.xml', // Replace with your TwiML URL
+            }),
+        });
+
+        if (response.ok) {
+            return { success: true };
+        } else {
+            console.error('Twilio API error:', response.statusText);
+            return { success: false };
+        }
+    } catch (error) {
+        console.error('Twilio API error:', error);
+        return { success: false };
+    }
 }
