@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Caller</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Auto Caller</h2>
+        <form id="callForm" onsubmit="startCalling(event)">
+            <label for="phoneNumber">Enter Phone Number:</label>
+            <input type="tel" id="phoneNumber" placeholder="Enter phone number" required>
+            
+            <label for="callTime">Set Call Time:</label>
+            <input type="time" id="callTime" required>
+            
+            <button type="submit" id="startButton">Start Calling</button>
+            <button type="button" id="stopButton" onclick="stopCalling()">Stop Calling</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
